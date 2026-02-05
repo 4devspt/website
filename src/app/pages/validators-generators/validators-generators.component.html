@@ -1,0 +1,17 @@
+<div class="validators-generators-page">
+  <h1>Validadores e Geradores</h1>
+  <p>Valide e gere números válidos para identificadores portugueses e cartões de pagamento.</p>
+
+  <div class="cards-grid">
+    @for (card of cards; track card.id; let i = $index) {
+      <app-validator-generator
+        [config]="card.config"
+        [inputValue]="card.value"
+        (valueChange)="onValueChange(card.id, $event)"
+        (onValidateClick)="onValidate(card.id, $event)"
+        (onGenerateClick)="onGenerate(card.id)"
+        #validatorCards
+      />
+    }
+  </div>
+</div>

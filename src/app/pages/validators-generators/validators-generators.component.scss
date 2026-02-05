@@ -1,0 +1,23 @@
+.validators-generators-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--surface-text);
+  margin-bottom: 0.5rem;
+}
+
+p {
+  color: var(--surface-muted);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}

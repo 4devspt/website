@@ -1,0 +1,143 @@
+<div class="homepage-container">
+  <!-- Header Section -->
+  <div class="homepage-header">
+    <div class="header-content">
+      <h1 class="page-title">Sua Homepage</h1>
+      <p class="page-description">
+        Personalize a sua página inicial com os seus links favoritos. Arraste e solte os cartões
+        para reorganizá-los.
+      </p>
+      <div class="storage-info">
+        <i class="pi pi-info-circle"></i>
+        <span
+          >Todos os dados são guardados apenas no seu navegador (localStorage). Não são enviados
+          para nenhum servidor.</span
+        >
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <div class="grid-selector">
+        <label for="gridSize">Cartões por linha:</label>
+        <select id="gridSize" [ngModel]="gridSize()" (change)="onGridSizeChange($event)">
+          <option *ngFor="let option of gridOptions" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <button
+        pButton
+        type="button"
+        label="Adicionar Cartão"
+        icon="pi pi-plus"
+        class="p-button-rounded p-button-raised"
+        (click)="openAddModal()"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="cards-grid" [style.grid-template-columns]="'repeat(' + gridSize() + ', 1fr)'">
+    <div
+      *ngFor="let card of cards(); let i = index"
+      class="card-wrapper"
+      [class.drag-over]="isDraggingOver(i)"
+      draggable="true"
+      (dragstart)="onDragStart($event, card)"
+      (dragover)="onDragOver($event, i)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event, i)"
+      (dragend)="onDragEnd()"
+    >
+      <app-link-card [card]="card"></app-link-card>
+
+      <button class="delete-btn" (click)="deleteCard(card.id)" title="Eliminar cartão">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="cards().length === 0" class="empty-state">
+      <i class="pi pi-link empty-icon"></i>
+      <p>Ainda não tem cartões.</p>
+      <button
+        pButton
+        type="button"
+        label="Adicionar o primeiro cartão"
+        icon="pi pi-plus"
+        class="p-button-outlined"
+        (click)="openAddModal()"
+      ></button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Card Modal -->
+<div class="modal-overlay" *ngIf="showAddModal()" (click)="closeAddModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Adicionar Novo Cartão</h2>
+      <button class="close-btn" (click)="closeAddModal()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="cardName">Nome do cartão *</label>
+        <input
+          type="text"
+          id="cardName"
+          pInputText
+          [(ngModel)]="newCardName"
+          placeholder="Ex: Google, GitHub, Documentation..."
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="cardImageUrl">URL do ícone *</label>
+        <input
+          type="text"
+          id="cardImageUrl"
+          pInputText
+          [(ngModel)]="newCardImageUrl"
+          placeholder="Ex: https://example.com/icon.png"
+        />
+        <small>Pode usar links de icons ou imagens.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="cardLink">URL do link (opcional)</label>
+        <input
+          type="text"
+          id="cardLink"
+          pInputText
+          [(ngModel)]="newCardLink"
+          placeholder="Ex: https://google.com"
+        />
+        <small>Se não preencher, o cartão abre como informação.</small>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="closeAddModal()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Adicionar"
+        icon="pi pi-check"
+        class="p-button-rounded"
+        [disabled]="!newCardName.trim() || !newCardImageUrl.trim()"
+        (click)="addCard()"
+      ></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<p-card [style]="{ 'min-width': '300px' }" styleClass="validator-card">
+  <ng-template pTemplate="header">
+    <div class="card-header">
+      <h3>{{ config.title }}</h3>
+      <p>{{ config.description }}</p>
+    </div>
+  </ng-template>
+
+  <div class="input-container">
+    <p-iconField iconPosition="right" style="width: 100%">
+      <p-inputIcon styleClass="pi pi-ellipsis-h" />
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="inputValue"
+        [placeholder]="config.placeholder || 'Introduzir valor'"
+        style="width: 100%"
+        class="validator-input"
+      />
+      <p-inputIcon
+        styleClass="pi pi-copy copy-icon"
+        (click)="copyToClipboard()"
+        pTooltip="Copiar para clipboard"
+        tooltipPosition="top"
+        [class.copied]="copied()"
+      />
+    </p-iconField>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="card-footer">
+      <p-button
+        [label]="config.validationLabel || 'Validar'"
+        icon="pi pi-check"
+        styleClass="p-button-outlined validate-btn"
+        (onClick)="onValidate()"
+        [disabled]="!inputValue"
+      />
+      <p-button
+        [label]="config.generateLabel || 'Gerar'"
+        icon="pi pi-refresh"
+        styleClass="generate-btn"
+        (onClick)="onGenerate()"
+      />
+    </div>
+  </ng-template>
+
+  @if (validationResult() !== null) {
+    <div
+      class="validation-result"
+      [class.valid]="validationResult()"
+      [class.invalid]="!validationResult()"
+    >
+      <i [class]="validationResult() ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+      <span>{{ validationResult() ? 'Válido' : 'Inválido' }}</span>
+    </div>
+  }
+</p-card>

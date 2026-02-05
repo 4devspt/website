@@ -1,0 +1,27 @@
+<nav class="navbar">
+  <div class="navbar-logo"><i class="pi pi-code"></i> 4Devs</div>
+
+  <ul class="navbar-menu">
+    <!-- <li class="navbar-item">
+      <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="navbar-link">
+        <i class="pi pi-github"></i>
+        Home
+      </a>
+    </li> -->
+    <li class="navbar-item" *ngFor="let item of navItems">
+      <a [routerLink]="item.route" routerLinkActive="active" class="navbar-link">
+        <i [class]="'pi ' + item.icon"></i>
+        {{ item.label }}
+      </a>
+    </li>
+  </ul>
+
+  <div class="theme-switch-container">
+    <div class="theme-toggle" (click)="toggleTheme()">
+      <span class="theme-label">
+        <i [class]="isDarkTheme ? 'pi pi-sun' : 'pi pi-moon'"></i>
+        {{ isDarkTheme ? 'Modo Claro' : 'Modo Escuro' }}
+      </span>
+    </div>
+  </div>
+</nav>

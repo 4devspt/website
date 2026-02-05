@@ -1,0 +1,6 @@
+<a [href]="card.link" target="_blank" class="link-card">
+  <div class="card-image">
+    <img [src]="card.imageUrl" [alt]="card.name" onerror="this.src = 'assets/default-icon.png'" />
+  </div>
+  <div class="card-name">{{ card.name }}</div>
+</a>
